@@ -7,7 +7,7 @@
     "dev": "webpack --watch -d --mode development",
     "build": "webpack -d --mode development",
     "serve": "docker-compose up",
-    "local": "php -S localhost:8000"
+    "local": "php -S localhost:8000 -t dist"
   },
   "author": "Ali Barış Öztürk",
   "license": "ISC",
