@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack --watch -d --mode development",
     "build": "webpack -d --mode development",
-    "serve": "docker-compose up"
+    "serve": "docker-compose up",
+    "local": "php -S localhost:8000"
   },
   "author": "Ali Barış Öztürk",
   "license": "ISC",
