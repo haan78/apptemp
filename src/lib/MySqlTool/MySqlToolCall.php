@@ -18,6 +18,9 @@ namespace MySqlTool {
         public $setEmptyStringsToNull = true;
         public $autoClose = true;
 
+        private $outs = null;
+        private $lists = null;
+
         public function __construct(\mysqli $link) {
             $this->link = $link;
             $this->params = array();
@@ -30,7 +33,7 @@ namespace MySqlTool {
         
         public function result($key) {
             if (is_string($key)) {
-                if (is_array($this->outs) && (isset($this->outs[$key])) ) {
+                if (is_array($this->outs) && (array_key_exists($key,$this->outs)) ) {
                     return $this->outs[$key];
                 } else {
                     throw new MySqlToolMethodException("There is no such kind an out like '$key'",1003,__METHOD__);
@@ -294,10 +297,8 @@ namespace MySqlTool {
                 mysqli_free_result($queries[$i]);
             }
             
-            $this->result = [
-                "outs" => $outs,
-                "queries" => $lists
-            ];
+            $this->outs = $outs;
+            $this->lists = $lists;
 
             if ($this->autoClose) mysqli_close($this->link);
             return $this;

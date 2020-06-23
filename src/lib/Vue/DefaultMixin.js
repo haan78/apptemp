@@ -29,27 +29,24 @@ export default {
             }
         },
 
+        setData(t,s) {
+            if ( typeof t === "object" && t !== null ) {
+                for (var k in t) {
+                    if ( typeof t[k] === "object" && t[k] !== null ) {
+                        this.setData(t[k],(typeof s[k] !== "undefined" ? s[k] : null));
+                    } else {
+                        t[k] = ( s && typeof s[k] !== "undefined" ? s[k] : null);
+                    }                    
+                }
+            }
+        },
+
         defaultError(type,message) {
             //console.error(type+":"+message);
             this.$notify.error({
                 title: 'Hata / '+type,
                 message: message
               });
-        },
-
-        ebs(tc,cb) {
-            let self = this;
-            self.$jsonp("http://ebs.teb.org.tr/ek_servisler/eczaci_hukuk_jsonp.php?tc="+tc,{ callbackName:"cb",callbackQuery:"cb" }).then( (response)=>{
-              if ( response.success ) {
-                cb(response.result);
-              } else {
-                self.$message.error(response.result);
-              }
-      
-            }).catch((error)=>{
-              self.$message.error("JSONP iletim hatası");
-              console.log(error);
-            });
         },
         
         WebMethod(method,data,onSuccess,onError) {

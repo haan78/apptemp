@@ -63,11 +63,11 @@ module.exports = {
     },
     
     entry: {
-        main: "./src/js/main.js",
-        login:"./src/js/login.js"
+        app: "./src/app.js",
+        login:"./src/login.js"
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'protected/[name].js',
         path: path.resolve(__dirname, 'dist'),
     },
     
@@ -75,8 +75,10 @@ module.exports = {
         new VueLoaderPlugin(),
         new CopyPlugin([
             { from: './src/lib', to: 'lib' },
+            { from: './src/vendor', to: 'vendor' },
             { from: './src/assets', to: 'assets' },            
-            { from: './src/*.php', to: "[name].php" }
+            { from: './src/*.php', to: "[name].php" },
+			{ from: './src/upload', to 'upload'}
         ])
     ]
 };
