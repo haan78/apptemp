@@ -28,13 +28,11 @@ RUN mkdir /var/log/app && \
 	chmod -R 777 /var/log/app
 
 RUN rm -rf /var/www/html/* && \
-	ls -lh /var/www/ && \
-	mkdir /var/www/html/upload && \
-	mkdir /var/www/html/protected && \
-	chown -R www-data:www-data /var/www/html && \
-	chmod -R 777 /var/www/html/upload
+	mkdir /var/www/upload && \
+	chown -R www-data:www-data /var/www/ && \
+	chmod -R 777 /var/www/upload
 	
 
 EXPOSE 80 22
-VOLUME  ["appsrv_mysql:/var/lib/mysql:rw", "appsrv_html:/var/www/html", "appsrv_log:/var/log/app" ]
+VOLUME  ["/var/lib/mysql", "/var/www/html", "/var/log/app", "/var/www/upload" ]
 CMD ["/scripts/init.sh"]

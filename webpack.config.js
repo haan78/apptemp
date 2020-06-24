@@ -1,4 +1,4 @@
-const path = require('path');
+const  path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -67,18 +67,17 @@ module.exports = {
         login:"./src/login.js"
     },
     output: {
-        filename: 'protected/[name].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
     },
     
     plugins: [
         new VueLoaderPlugin(),
-        new CopyPlugin([
+        new CopyPlugin({patterns:[
             { from: './src/lib', to: 'lib' },
-            { from: './src/vendor', to: 'vendor' },
-            { from: './src/assets', to: 'assets' },            
-            { from: './src/*.php', to: "[name].php" },
-			{ from: './src/upload', to 'upload'}
-        ])
+            { from: './src/vendor', to: 'vendor' },            
+            { from: './src/*.php', to: "[name].php" }
+			{ from: './src/assets', to: 'assets' },
+        ]})
     ]
 };

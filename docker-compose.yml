@@ -1,0 +1,19 @@
+version: '3.7'
+
+volumes:
+    mysql:
+    upload:
+    log:
+
+services: 
+    server:
+        image: appsrv
+        ports:
+            - "80:80"
+            - "22:22"
+        volumes:
+            - "./dist:/var/www/html/"
+            - "mysql:/var/lib/mysql:rw"
+            - "upload:/var/www/upload/"
+            - "log:/var/log/app"
+  
