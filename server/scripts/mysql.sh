@@ -6,7 +6,7 @@ then
 	mysqld --initialize-insecure
 	#chmod -R 770 /var/lib/mysql
 
-	if [ -f /script/default.sql ]
+	if [ -f /scripts/default.sql ]
 	then
 	
 		mkdir -p /var/run/mysqld

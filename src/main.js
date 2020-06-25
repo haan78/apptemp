@@ -27,7 +27,20 @@ Vue.config.productionTip = false;
 var router = new VueRouter({ routes });
 
 
+var head = document.createElement("head");
+var body = document.createElement("body");
+var container = document.createElement("div");
+var ch = document.createElement('meta');
+ch.httpEquiv = "Content-Type";
+ch.content = "text/html; charset=utf-8";
+document.title = "SUBUTAI FW";
+head.appendChild(ch);
+body.appendChild(container);
+
+document.documentElement.appendChild(head);
+document.documentElement.appendChild(body);
+
 new Vue({
     router,
     render: h => h(main)
-    }).$mount('#app');
+    }).$mount(container);

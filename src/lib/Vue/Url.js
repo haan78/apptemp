@@ -5,7 +5,7 @@ export default {
     
     param:function(name) {
         var pl = this.getQueryParams();
-        if ( pl.hasOwnProperty(name) ) {
+        if ( Object.prototype.hasOwnProperty.call(pl,name) ) {
             return pl[name];
         } else {
             return null;

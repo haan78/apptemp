@@ -56,7 +56,7 @@ namespace Web {
                     "file" => $ex->getFile(),
                     "line" => $ex->getLine()
                 ];
-                $this->doError($ex);
+                $this->doError($action,$ex);
             }
 
 
@@ -65,11 +65,18 @@ namespace Web {
             $rai->get = $_GET;
             $rai->post = $_POST;
             $rai->client = $_SERVER;
-            $this->log($rai);
+            $this->log($action,$rai);
         }
 
-        abstract protected function log(RouterActionInfo $rai);
-        abstract protected function doError(\Exception $ex);
+        public function javaScript($file,$data = null) {
+            $js = file_get_contents($file);
+            $json= json_encode($data);
+            $fnc = "function GET_EMBEDED_DATA() { return $json; };";
+            echo " <!DOCTYPE html><script>\n$js;\n$fnc</script>";
+        }
+
+        abstract protected function log($action,\Web\RouterActionInfo $rai);
+        abstract protected function doError($action,\Exception $ex);
         abstract protected function auth($action) : bool;
 
     }

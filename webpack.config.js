@@ -63,7 +63,7 @@ module.exports = {
     },
     
     entry: {
-        app: "./src/app.js",
+        main: "./src/main.js",
         login:"./src/login.js"
     },
     output: {
@@ -76,8 +76,8 @@ module.exports = {
         new CopyPlugin({patterns:[
             { from: './src/lib', to: 'lib' },
             { from: './src/vendor', to: 'vendor' },            
-            { from: './src/*.php', to: "[name].php" }
-			{ from: './src/assets', to: 'assets' },
+            { from: './src/*.php', to: "[name].php" },
+			      { from: './src/assets', to: 'assets' },
         ]})
     ]
 };
