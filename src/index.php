@@ -22,6 +22,18 @@ class R extends \Web\Router
     {
         $this->javaScript("main.js",["selam", "oldu", "mu?"]);
     }
+
+    public function ajax() {
+
+    }
+
+    public function login() {
+
+    }
+
+    public function logout() {
+
+    }
 }
 
 new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"));
