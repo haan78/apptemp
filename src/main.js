@@ -13,7 +13,7 @@ import ElementUI from 'element-ui';
 import locale from "element-ui/lib/locale/lang/tr-TR"
 import JsDocument from "./lib/Vue/JsDocument";
 
-import "./theme/index.css";
+//import "./theme/index.css";
 
 Vue.use(ElementUI, { locale });
 

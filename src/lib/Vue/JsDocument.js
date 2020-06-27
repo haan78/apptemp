@@ -7,11 +7,10 @@ export default (title) => {
     ch.content = "text/html; charset=utf-8";
     document.title = (title ? title : "");
     head.appendChild(ch);
-    body.appendChild(container);
-
+    
     document.documentElement.appendChild(head);
     document.documentElement.appendChild(body);
-    var loading = document.querySelector('[ data-role = __greeting__ ]');
-    if ( loading ) loading.remove();
+    document.body.querySelector(":not(script)").remove();
+    body.appendChild(container);
     return container;
 }
