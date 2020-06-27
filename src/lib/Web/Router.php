@@ -21,7 +21,7 @@ namespace Web {
         public final function check($action) {
             if (\method_exists($this,$action)) {
                 $rfm = new \ReflectionMethod($this, $action);
-                if (($rfm->isPublic()) && (!$rfm->isConstructor()) && (!$rfm->isDestructor()) && (!$rfm->isStatic())) {
+                if (($rfm->isPublic()) && (!$rfm->isConstructor()) && (!$rfm->isDestructor()) && (!$rfm->isStatic()) && $action != "check" ) {
                     if ( $rfm->invokeArgs($this, []) ) {
                         return true;
                     } else {
