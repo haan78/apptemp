@@ -1,6 +1,8 @@
 <?php
 
 require_once "./lib/Web/Router.php";
+require_once "./auth.php";
+
 
 define("TITLE", "SUBUTAI FRAME WORK");
 
@@ -16,6 +18,10 @@ class R extends \Web\Router
     protected function auth($action): bool
     {
         return true;
+    }
+
+    public function atest() {
+        echo "Yes";
     }
 
     public function main()
@@ -42,4 +48,4 @@ class R extends \Web\Router
     }
 }
 
-new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"));
+new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"),new auth());
