@@ -2,16 +2,7 @@
 
 namespace Web {
     
-    class WebRouterException extends \Exception {
-
-        public function __construct($message, $code = 0, \Exception $previous = null) {            
-            parent::__construct($message, $code, $previous);
-        }
-
-        public function __toString() {
-            return __CLASS__ . ": [{$this->code}]: {$this->message}";
-        }
-    }
+    require_once __DIR__ . "/WebException.php";
 
     class RouterActionInfo {
         public $name;
@@ -26,9 +17,28 @@ namespace Web {
         public $client;
     }
 
+    class Authorizer {
+        public final function check($action) {
+            if (\method_exists($this,$action)) {
+                $rfm = new \ReflectionMethod($this, $action);
+                if (($rfm->isPublic()) && (!$rfm->isConstructor()) && (!$rfm->isDestructor()) && (!$rfm->isStatic())) {
+                    if ( $rfm->invokeArgs($this, []) ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    throw new WebException(__METHOD__,"Authorizer method is not accessible",2001);
+                }
+            } else {
+                return true;
+            }
+        }
+    }
+
     abstract class Router {
 
-        public function __construct($action) {
+        public function __construct($action,Authorizer $auth = null) {
             $time_start = microtime(true);
             $rai = new RouterActionInfo();
             $rai->name = $action;
@@ -37,17 +47,17 @@ namespace Web {
                 if (method_exists($this, $action)) {
                     $rfm = new \ReflectionMethod($this, $action);
                     if (($rfm->isPublic()) && (!$rfm->isConstructor()) && (!$rfm->isDestructor()) && (!$rfm->isStatic())) {
-                        if ( $this->auth($action) ) {
+                        if (  is_null($auth) || $auth->check($action) ) {
                             $rai->authentication = true;
                             $rai->result = $rfm->invokeArgs($this, []);
                         } else {
                             $rai->authentication = false;
                         }
                     } else {
-                        throw new WebRouterException("Router method is not accessible",1002);
+                        throw new WebException(__METHOD__,"Router method is not accessible",1002);
                     }
                 } else {
-                    throw new WebRouterException("Router method not found",1001);
+                    throw new WebException(__METHOD__,"Router method not found",1001);
                 }
             } catch (\Exception $ex) {
                 $rai->errorDetails = [
@@ -71,13 +81,11 @@ namespace Web {
         public function javaScript($file,$data = null) {
             $js = file_get_contents($file);
             $json= json_encode($data);
-            $fnc = "function GET_EMBEDED_DATA() { return $json; };";
-            echo " <!DOCTYPE html><script>\n$js;\n$fnc</script>";
+            echo " <!DOCTYPE html><script>\n$js;\nfunction GET_EMBEDED_DATA() { return $json; }</script>";
         }
 
         abstract protected function log($action,\Web\RouterActionInfo $rai);
         abstract protected function doError($action,\Exception $ex);
-        abstract protected function auth($action) : bool;
 
     }
 
