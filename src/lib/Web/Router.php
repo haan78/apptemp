@@ -60,10 +60,10 @@ namespace Web {
             $this->log($action,$rai);
         }
 
-        public function javaScript($file,$data = null) {
+        public function JsDocument($file,$data = null,$greeting="") {
             $js = file_get_contents($file);
             $json= json_encode($data);
-            echo " <!DOCTYPE html><script>\n$js;\nfunction GET_EMBEDED_DATA() { return $json; }</script>";
+            echo "<!DOCTYPE html>$greeting<script>\n$js;\nfunction GET_EMBEDED_DATA() { return $json; }</script>";
         }
 
         abstract protected function log($action,\Web\RouterActionInfo $rai);

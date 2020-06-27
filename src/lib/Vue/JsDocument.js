@@ -11,5 +11,7 @@ export default (title) => {
 
     document.documentElement.appendChild(head);
     document.documentElement.appendChild(body);
+    var loading = document.querySelector('[ data-role = __greeting__ ]');
+    if ( loading ) loading.remove();
     return container;
 }

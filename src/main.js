@@ -11,7 +11,7 @@ import routes from "./routes";
 
 import ElementUI from 'element-ui';
 import locale from "element-ui/lib/locale/lang/tr-TR"
-import Document from "./lib/Vue/Document";
+import JsDocument from "./lib/Vue/JsDocument";
 
 import "./theme/index.css";
 
@@ -30,4 +30,4 @@ var router = new VueRouter({ routes });
 new Vue({
     router,
     render: h => h(main)
-}).$mount(Document("SUBUTAI"));
+}).$mount(JsDocument("SUBUTAI"));
