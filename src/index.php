@@ -26,7 +26,7 @@ class R extends \Web\Router
 
     public function main()
     {
-        $this->JsDocument("main.js",["selam", "oldu", "mu?"],"<img src='assets/loading.gif' style='display: block; margin-left: auto; margin-right: auto;'/>");
+        $this->JsDocument("main.js",null,"<img src='assets/loading.gif' style='display: block; margin-left: auto; margin-right: auto;'/>");
     }
 
     public function ajax() {

@@ -1,6 +1,12 @@
 <template>
-    <div>Main</div>
+    <div>
+        <el-button type="success">This is Main</el-button>
+    </div>
 </template>
+
+<style>
+    @import "./theme/index.css";
+</style>
 
 <script>
 export default {
@@ -8,7 +14,7 @@ export default {
         return {};
     },
     created() {
-        console.log(eval("GET_EMBEDED_DATA()"));
+        console.log(window.sessionStorage.getItem("ENBEDED_DATA"));
     },
     methods:{
 

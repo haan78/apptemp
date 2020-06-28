@@ -6,6 +6,7 @@ module.exports = {
     
     //watch: true,
     mode: 'development',
+    //mode: 'production',
     devtool:"source-map",
     module:{
         rules: [

@@ -60,10 +60,12 @@ namespace Web {
             $this->log($action,$rai);
         }
 
-        public function JsDocument($file,$data = null,$greeting="") {
+        public function JsDocument($file,$data = null,$greeting="Please Wait...") {
             $js = file_get_contents($file);
-            $json= json_encode($data);
-            echo "<!DOCTYPE html>$greeting<script>\n$js;\nfunction GET_EMBEDED_DATA() { return $json; }</script>";
+            $json = json_encode($data);
+            $js = str_replace("%ENBEDED_DATA%",base64_encode($json),$js);
+            
+            echo "<!DOCTYPE html>$greeting<script>$js</script>";
         }
 
         abstract protected function log($action,\Web\RouterActionInfo $rai);
