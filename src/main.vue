@@ -1,6 +1,7 @@
 <template>
     <div>
         <el-button type="success">This is Main</el-button>
+        <br/><a href="_.php?a=logout">Logut</a>
     </div>
 </template>
 

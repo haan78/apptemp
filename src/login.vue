@@ -1,5 +1,13 @@
 <template>
-    <div>Login</div>
+    <div>Login
+        <form action="_.php?a=enter" method="POST" >
+            <input type="text" name="user" value="USER" />
+            <button type="submit">ENTER</button>
+        </form>
+        <div v-show="getM()=='n'">Nothing Just Welcome</div>
+        <div v-show="getM()=='w'">Wrong Auth</div>
+        <div v-show="getM()=='e'">Exit to System</div>
+    </div>
 </template>
 <style>
     @import "./theme/index.css";
@@ -13,7 +21,10 @@ export default {
         
     },
     methods:{
-
+        getM() {
+            var params = this.$url.params();
+            return ( params.m ? params.m : 'n' );
+        }
     }
 }
 </script>

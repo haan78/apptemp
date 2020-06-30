@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL);
 require_once "./lib/Web/Router.php";
 require_once "./auth.php";
 
@@ -34,6 +34,17 @@ class R extends \Web\Router
         $this->jsFile("login.js");
     }
 
+    public function enter() {
+        if (isset($_POST["user"])) {
+            session_start();
+            $_SESSION["user"] = trim($_POST["user"]);
+            $this->redirect("/index.html");
+        } else {
+            $this->redirect("/index.html?m=w");
+        }
+        
+    }
+
     public function logout() {
         session_start();
         session_unset();
@@ -41,7 +52,7 @@ class R extends \Web\Router
             setcookie(session_name(), '', time()-42000, '/');
         }
         session_destroy();
-        header('Location: index.phpa=login');
+        $this->redirect('/index.html?m=e');
     }
 }
 

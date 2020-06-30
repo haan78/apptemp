@@ -8,17 +8,24 @@ namespace Web {
     class RouterActionInfo {
         public $name;
         public $time;
-        public $authentication;
+        public bool $authentication;
+        public ?string $redirection = null;
         public $result;
         public $errorDetails;
-        public $duration;
-        public $get;
-        public $post;
-        public $session;
-        public $client;
+        public int $duration;
+        public ?array $get;
+        public ?array $post;
+        public ?array $session;
+        public ?array $client;
     }
 
     abstract class Router {
+
+        private ?string $redirection = null;
+
+        protected final function redirect(string $url) {
+            $this->redirection = $url;
+        }
 
         public function __construct($action,Authorizer $auth = null) {
             $time_start = microtime(true);
@@ -33,6 +40,7 @@ namespace Web {
                             $rai->authentication = true;
                             $rai->result = $rfm->invokeArgs($this, []);
                         } else {
+                            $this->redirection = $auth->getRedirectUrl();
                             $rai->authentication = false;
                         }
                     } else {
@@ -51,13 +59,16 @@ namespace Web {
                 $this->doError($action,$ex);
             }
 
-
             $rai->duration = round(microtime(true) - $time_start, 5);
             $rai->session = ( isset($_SESSION) ? $_SESSION : null );
             $rai->get = $_GET;
             $rai->post = $_POST;
             $rai->client = $_SERVER;
+            $rai->redirection = $this->redirection;
             $this->log($action,$rai);
+            if ( !is_null($rai->redirection) ) {
+                header("Location: ".$this->redirection);
+            }
         }
 
         public function jsFile($file,$data = null,$replaceCode = "VGhlcmUgaXMgbm8gZW1iZWRkZWQgZGF0YSBmcm9tIHRoZSBiYWNrZW5k") {

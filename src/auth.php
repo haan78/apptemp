@@ -4,7 +4,7 @@ class Auth extends \Web\Authorizer {
     public function main() {
         session_start();
         if (!isset($_SESSION["user"])) {
-            $this->redirect(["a"=>"login"]);  
+            $this->abort("_.php?a=login");             
         }             
     }
 }

@@ -2,17 +2,14 @@
 namespace Web {
     class Authorizer {
 
-        private $aborted = false;
+        private $redirectUrl = null;
 
-        public final function isAborted():bool {
-            return $this->aborted;
+        protected final function abort(string $url) {
+            $this->redirectUrl = $url;
         }
 
-        protected final function redirect(array $params = []) {
-            $uri = $_SERVER["SCRIPT_NAME"]."?".http_build_query($params);
-            $this->aborted = true;
-            //die("Location: $uri");
-            header("Location: $uri");
+        public final function getRedirectUrl() {
+            return $this->redirectUrl;
         }
 
         public final function check($action):bool {
@@ -21,7 +18,7 @@ namespace Web {
                 $rfm = new \ReflectionMethod($this, $action);
                 if (($rfm->isPublic()) && (!$rfm->isConstructor()) && (!$rfm->isDestructor()) && (!$rfm->isStatic())) {
                     $rfm->invokeArgs($this, []);
-                    return !$this->aborted;
+                    return is_null($this->redirectUrl);
                 } else {
                     throw new WebException(__METHOD__,"Authorizer method is not accessible",2001);
                 }
