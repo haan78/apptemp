@@ -60,12 +60,12 @@ namespace Web {
             $this->log($action,$rai);
         }
 
-        public function JsDocument($file,$data = null,$greeting="Please Wait...") {
+        public function jsFile($file,$data = null,$replaceCode = "VGhlcmUgaXMgbm8gZW1iZWRkZWQgZGF0YSBmcm9tIHRoZSBiYWNrZW5k") {
             $js = file_get_contents($file);
             $json = json_encode($data);
-            $js = str_replace("%ENBEDED_DATA%",base64_encode($json),$js);
-            
-            echo "<!DOCTYPE html>$greeting<script>$js</script>";
+            $js = str_replace($replaceCode,base64_encode($json),$js);
+            header('Content-Type: application/javascript');        
+            echo $js;
         }
 
         abstract protected function log($action,\Web\RouterActionInfo $rai);

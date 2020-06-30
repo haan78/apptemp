@@ -14,7 +14,7 @@ export default {
         return {};
     },
     created() {
-        console.log(window.sessionStorage.getItem("ENBEDED_DATA"));
+        console.log(this.getServerData("DATA"));
     },
     methods:{
 

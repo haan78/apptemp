@@ -78,6 +78,7 @@ module.exports = {
             { from: './src/lib', to: 'lib' },
             { from: './src/vendor', to: 'vendor' },            
             { from: './src/*.php', to: "[name].php" },
+            { from: './src/*.html', to: "[name].html" },
 			      { from: './src/assets', to: 'assets' },
         ]})
     ]

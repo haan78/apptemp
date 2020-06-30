@@ -5,8 +5,6 @@ import Login from "./login.vue";
 import ElementUI from 'element-ui';
 import locale from "element-ui/lib/locale/lang/tr-TR"
 
-import "./theme/index.css";
-
 Vue.mixin(DefaultMixin);
 Vue.use(ElementUI,{ locale });
 

@@ -11,7 +11,7 @@ import routes from "./routes";
 
 import ElementUI from 'element-ui';
 import locale from "element-ui/lib/locale/lang/tr-TR"
-import JsDocument from "./lib/Vue/JsDocument";
+
 
 
 Vue.use(ElementUI, { locale });
@@ -26,7 +26,9 @@ Vue.config.productionTip = false;
 
 var router = new VueRouter({ routes });
 
+window.sessionStorage.setItem("DATA",'VGhlcmUgaXMgbm8gZW1iZWRkZWQgZGF0YSBmcm9tIHRoZSBiYWNrZW5k');
+
 new Vue({
     router,
     render: h => h(main)
-}).$mount(JsDocument("SUBUTAI"));
+}).$mount("#app");

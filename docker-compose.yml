@@ -2,7 +2,7 @@ version: '3.7'
 
 volumes:
     mysql:
-    upload:
+    upload: {}
     log:
 
 services: 

@@ -3,9 +3,6 @@
 require_once "./lib/Web/Router.php";
 require_once "./auth.php";
 
-
-define("TITLE", "SUBUTAI FRAME WORK");
-
 class R extends \Web\Router
 {
     protected function log($action, \Web\RouterActionInfo $rai)
@@ -26,7 +23,7 @@ class R extends \Web\Router
 
     public function main()
     {
-        $this->JsDocument("main.js",null,"<img src='assets/loading.gif' style='display: block; margin-left: auto; margin-right: auto;'/>");
+        $this->jsFile("main.js",["user"=>"User","role"=>"ADMIN2"]);
     }
 
     public function ajax() {
@@ -34,7 +31,7 @@ class R extends \Web\Router
     }
 
     public function login() {
-
+        $this->jsFile("login.js");
     }
 
     public function logout() {
