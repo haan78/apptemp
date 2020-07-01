@@ -21,13 +21,21 @@ class R extends \Web\Router
         echo "Yes";
     }
 
-    public function main()
-    {
-        $this->jsFile("main.js",["user"=>"User","role"=>"ADMIN2"]);
+    public function main() {
+        session_start();
+        if (isset($_SESSION["user"])) {
+            $this->jsFile("main.js",["user"=>"User","role"=>"ADMIN2"]);
+        } else {
+            $this->redirect("_.php?a=login");
+        }
+        
     }
 
     public function ajax() {
-
+        include "ajax.php";
+        $a = new ajax();
+        $a->printAsJson();
+        return $a->getLastOperationData();
     }
 
     public function login() {
