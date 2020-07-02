@@ -1,5 +1,7 @@
 FROM phusion/baseimage:0.11
-MAINTAINER Ali Baris Ozturk <alibarisozturk@gmail.com>
+LABEL "name"="LAMP"
+LABEL "author"="Ali Baris Ozturk"
+LABEL "email"="alibarisozturk@gmail.com"
 
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -27,10 +29,14 @@ COPY ./server/apache/*.conf /etc/apache2/sites-enabled/
 RUN mkdir /var/log/app && \
 	chmod -R 777 /var/log/app
 
-RUN rm -rf /var/www/html/* && \
-	mkdir /var/www/upload && \
+COPY ./dist /var/www/html
+#RUN rm -rf /var/www/html/*
+
+RUN mkdir /var/www/upload && \
 	chown -R www-data:www-data /var/www/ && \
 	chmod -R 777 /var/www/upload
+
+
 	
 
 EXPOSE 80 22
