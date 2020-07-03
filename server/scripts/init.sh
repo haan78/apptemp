@@ -44,8 +44,15 @@ do
     else
         echo "Database $dbname is already exist"
     fi
-    echo "It seems MySql side done. Good luck..."
 done
 
+echo "Adding connection parameter into php.ini"
+echo "mysqli.default_host = $host" >> /etc/php/7.4/apache2/conf.d/20-mysqli.ini
+echo "mysqli.default_user = $user" >> /etc/php/7.4/apache2/conf.d/20-mysqli.ini
+echo "mysqli.default_pw = $pass" >> /etc/php/7.4/apache2/conf.d/20-mysqli.ini
+echo "mysqli.default_port = $pass" >> /etc/php/7.4/apache2/conf.d/20-mysqli.ini
+
 service apache2 start
+
+echo "it seems all done. Good luck!"
 exec supervisord -n

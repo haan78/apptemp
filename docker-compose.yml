@@ -22,14 +22,10 @@ services:
             - "3306"
     apache:
         build: .
-        environment:
-            DBCONNECTION: "mysql"
         ports:
             - "80:80"
-            - "22:22"
         volumes:
             - "./dist:/var/www/html/"
             - "upload:/var/www/upload/"
             - "log:/var/log/app"
-            - "./server/scripts/databases:/scripts/databases"
   

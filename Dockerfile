@@ -13,7 +13,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
   
 ENV TZ=Turkey
 
-ADD ./server/scripts/ /scripts
+COPY ./server/scripts/ /scripts
 RUN chmod -R 755 /scripts/*.sh
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
