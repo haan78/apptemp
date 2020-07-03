@@ -37,7 +37,7 @@ namespace Web {
                             if ( !headers_sent($hf,$hl) ) {
                                 $rai->redirection = $this->redirection;
                             } else {
-                                throw new WebException(__METHOD__,"Header has beend sent before $hf / $hl",1003);
+                                throw new WebException(__METHOD__,"Header has been sent before $hf / $hl",1003);
                             }
                         }
                     } else {

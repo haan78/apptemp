@@ -12,14 +12,6 @@ class R extends \Web\Router
     {
         echo $ex->getMessage();
     }
-    protected function auth($action): bool
-    {
-        return true;
-    }
-
-    public function atest() {
-        echo "Yes";
-    }
 
     public function main() {
         session_start();

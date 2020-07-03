@@ -1,5 +1,4 @@
 #!/bin/bash
-
 host=mysql
 user=root
 port=3306
@@ -17,6 +16,7 @@ echo $mycon
 testr=$($mycon -e "SHOW DATABASES LIKE 'mysql'")
 
 echo "Testing mysql connection"
+
 
 if [[ $testr != *"mysql"* ]]
 then
@@ -47,5 +47,3 @@ do
     echo "It seems MySql side done. Good luck..."
 done
 
-service apache2 start
-exec supervisord -n

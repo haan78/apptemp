@@ -6,14 +6,30 @@ volumes:
     log:
 
 services: 
-    server:
-        image: appsrv
+    mysql:
+        image: mysql:5.7
+        restart: always
+        ports: 
+            - "3306:3306"
+
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_ROOT_PASSWORD:
+        volumes: 
+            - "mysql:/var/lib/mysql:rw"
+        expose: 
+            - "3306"
+    apache:
+        build: .
+        environment:
+            DBCONNECTION: "mysql"
         ports:
             - "80:80"
             - "22:22"
         volumes:
             - "./dist:/var/www/html/"
-            - "mysql:/var/lib/mysql:rw"
             - "upload:/var/www/upload/"
             - "log:/var/log/app"
+            - "./server/scripts/databases:/scripts/databases"
   

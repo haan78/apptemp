@@ -1,0 +1,3 @@
+CREATE DATABASE test1
+	CHARACTER SET utf8
+	COLLATE utf8_turkish_ci;
