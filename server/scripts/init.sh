@@ -18,7 +18,7 @@ then
 
     while ! mysqladmin ping -h"$host" --silent
     do
-        echo "-> Waiting to MySql Server"
+        echo "-> Waiting for MySql Server"
         sleep 1
     done
 
