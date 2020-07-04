@@ -48,7 +48,7 @@ then
         else
             echo "-> Database $dbname is already exist"
         fi
-done
+    done
 else
     echo "-> Environment Variable MYSQL_CONNECTION_STRING is not found"
     exit 1
