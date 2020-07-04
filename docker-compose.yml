@@ -22,10 +22,15 @@ services:
             - "3306"
     apache:
         build: .
+        environment: 
+            MYSQL_CONNECTION_STRING: "mysql,root,,3306"
         ports:
             - "80:80"
         volumes:
             - "./dist:/var/www/html/"
             - "upload:/var/www/upload/"
             - "log:/var/log/app"
+            - "./server/scripts:/scripts"
+        expose: 
+            - "80"
   

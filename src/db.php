@@ -1,12 +1,11 @@
 <?php
 require_once "./lib/MySqlTool/MySqlToolCall.php";
-define("DB_HOST","10.206.36.15");
-define("DB_SCHEMA",NULL);
+define("DB_SCHEMA","test1");
 class db {
     public static function connection() {
         $link = mysqli_init();
         mysqli_options($link, MYSQLI_OPT_CONNECT_TIMEOUT, 20);
-        mysqli_real_connect($link,DB_HOST);
+        mysqli_real_connect($link);
         if ( !is_null(DB_SCHEMA) ) {
             mysqli_select_db($link, DB_SCHEMA);
         }        
