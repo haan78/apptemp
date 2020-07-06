@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . "/Upload.php";
-
 namespace Web {
+
+    require_once __DIR__ . "/Upload.php";
 
     class JPEG {
 
