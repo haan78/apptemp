@@ -29,7 +29,7 @@ then
         mycon="mysql -h $host -u$user -p$pass --port=$port"
     fi
 
-    echo "-> Cheking database scripts..."
+    echo "-> Checking database scripts..."
     for sql in /scripts/databases/*.sql
     do
         filename=$(basename -- "$sql")
