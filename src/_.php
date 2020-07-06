@@ -5,29 +5,31 @@ require_once "./auth.php";
 
 class R extends \Web\Router
 {
-    protected function log($action, \Web\RouterActionInfo $rai)
-    {
+    protected function log($action, \Web\RouterActionInfo $rai) {
+
     }
-    protected function doError($action, \Exception $ex)
-    {
+    protected function doError($action, \Exception $ex)  {
         echo $ex->getMessage();
     }
 
     public function main() {
-        session_start();
-        if (isset($_SESSION["user"])) {
+        if ( auth::validate() ) {
             $this->jsFile("main.js",["user"=>"User","role"=>"ADMIN2"]);
         } else {
             $this->redirect("_.php?a=login");
-        }
-        
+        }       
     }
 
     public function ajax() {
-        include "ajax.php";
-        $a = new ajax();
-        $a->printAsJson();
-        return $a->getLastOperationData();
+        include "ajax.php";        
+        if ( auth::validate() ) {
+            $a = new ajax();
+            ajax::print($a->asArray());
+            return $a->getLastOperationData();
+        } else {
+            ajax::print(["success"=>false,"text"=>"Auhtantication has faild"]);
+            return null;
+        }        
     }
 
     public function login() {
@@ -35,9 +37,7 @@ class R extends \Web\Router
     }
 
     public function enter() {
-        if (isset($_POST["user"])) {
-            session_start();
-            $_SESSION["user"] = trim($_POST["user"]);
+        if (auth::login()) {
             $this->redirect("/index.html");
         } else {
             $this->redirect("/index.html?m=w");
@@ -46,14 +46,8 @@ class R extends \Web\Router
     }
 
     public function logout() {
-        session_start();
-        session_unset();
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time()-42000, '/');
-        }
-        session_destroy();
         $this->redirect('/index.html?m=e');
     }
 }
 
-new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"),new auth());
+new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"));
