@@ -9,11 +9,10 @@ class auth {
     }
 
     public static function login() : bool {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-
         if (isset($_POST["user"])) {
+            if (!isset($_SESSION)) {
+                session_start();
+            }
             $_SESSION["user"] = trim($_POST["user"]);
             return true;
         } else {
