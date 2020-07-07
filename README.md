@@ -8,12 +8,9 @@ composer
 npm install
 composer install
 
-## Connecting to MySql 
-Connecting to MySql Server by GUI is only alloew via SSH connection.
-
-SSH user = root
-SSH private key is located here ./server/keys/rsa_id
-There is no passphrase
+## MySql Connection
+You can pass connection string via environment variable
+MYSQL_CONNECTION_STRING=[host],[user],[pass],[port] 
 
 ## Starting webpacge devoloper
 npm run dev
