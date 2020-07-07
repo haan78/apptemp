@@ -2,7 +2,7 @@
 require_once "./lib/MySqlTool/MySqlToolCall.php";
 define("DB_SCHEMA","test1");
 class db {
-    public static function connection() {
+    public static function connection(?string $schema = DB_SCHEMA) {
         $link = mysqli_init();
         mysqli_options($link, MYSQLI_OPT_CONNECT_TIMEOUT, 20);
         mysqli_real_connect($link);
