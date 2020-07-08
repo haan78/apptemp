@@ -21,9 +21,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
     - name: NPM and COMPOSER insalling
       run: |
@@ -33,15 +30,17 @@ jobs:
     - name: NPM build
       run: npm run build
 
-    # Runs a set of commands using the runners shell
     - name: Building docker image
       run: docker build -t apptemp .
 
     - name: Docker Login
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-    
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+
     - name: Docker push
       run: |
         docker push apptemp
+      
       
