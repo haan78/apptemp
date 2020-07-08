@@ -30,6 +30,9 @@ jobs:
         npm install
         composer install
 
+    - name: NPM build
+      run: npm run build
+
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
       run: |
