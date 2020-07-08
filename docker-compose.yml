@@ -5,6 +5,11 @@ volumes:
     upload: {}
     log:
 
+networks: 
+    net1:
+        driver: bridge
+        name: net1
+
 services: 
     mysql:
         image: mysql:5.7
@@ -16,6 +21,8 @@ services:
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
             MYSQL_ROOT_PASSWORD:
+        networks: 
+            - net1
         volumes: 
             - "mysql:/var/lib/mysql:rw"
         expose: 
@@ -23,10 +30,11 @@ services:
     apache:
         build: .
         environment: 
-            MYSQL_CONNECTION_STRING: "mysql,root,,test1,3306"
-            
+            MYSQL_CONNECTION_STRING: "mysql,root,,test1,3306"            
         ports:
             - "80:80"
+        networks: 
+            - net1
         volumes:
             - "./dist:/var/www/html/"
             - "upload:/var/www/upload/"
