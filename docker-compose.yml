@@ -23,7 +23,8 @@ services:
     apache:
         build: .
         environment: 
-            MYSQL_CONNECTION_STRING: "mysql,root,,3306"
+            MYSQL_CONNECTION_STRING: "mysql,root,,test1,3306"
+            
         ports:
             - "80:80"
         volumes:
