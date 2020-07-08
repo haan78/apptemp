@@ -35,4 +35,13 @@ jobs:
 
     # Runs a set of commands using the runners shell
     - name: Building docker image
-      run: docker build --tag apptemp_apache .
+      run: docker build -t apptemp .
+
+    - name: Docker Login
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+    
+    - name: Docker push
+      run: |
+        docker push apptemp
+      
