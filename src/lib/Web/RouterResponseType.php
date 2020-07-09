@@ -33,7 +33,7 @@ namespace Web {
 
         public function outException(\Exception $ex) : void {
             header("Content-Type: text/html; charset=utf-8");
-            $this->showObjec([
+            $this->showObject([
                 "ERROR"=>$ex->getMessage(),
                 "CODE"=>$ex->getCode(),
                 "FILE"=>$ex->getFile(),
