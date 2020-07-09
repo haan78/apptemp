@@ -4,43 +4,51 @@ namespace Web {
 
     require_once __DIR__ . "/WebException.php";
 
+    class AjaxResult {
+        public $methodName;
+        public $methodParams;
+        public $methodResult;
+        public $methodOutParams;
+        public $methodDuration = 0;
+        public ?\Exception $methodException = null;
+    }
+
     abstract class Ajax {
 
-        protected $methodName;
-        protected $methodParams;
-        protected $methodResult;
-        protected $methodOutParams;
-        protected $methodDuration = 0;
-        protected $methodException = null;
-        private $lastOperationData;
+        private AjaxResult $result;
 
         abstract protected function generateParam(string $name, string $command);
 
-        public function __construct(string $methodName = null, array $methodParams = null) {
-
-            $this->methodResult = null;
+        public function __construct(bool $raiseonerror = true ,string $methodName = null, array $methodParams = null) {
+            $this->result = new AjaxResult();
+            $this->result->methodResult = null;
+            $this->result->methodException = null;
 
             $time_start = microtime(true);
             try {
                 if (is_null($methodName)) {
-                    $this->getRequest($this->methodName, $this->methodParams, false);
+                    $this->getRequest($this->result->methodName, $this->result->methodParams, false);
                 } elseif (is_null($methodParams)) {
-                    $this->methodName = $methodName;
-                    $this->getRequest($this->methodName, $this->methodParams, true);
+                    $this->result->methodName = $methodName;
+                    $this->getRequest($this->result->methodName, $this->result->methodParams, true);
                 } else {
-                    $this->methodName = $methodName;
-                    $this->methodParams = $methodParams;
+                    $this->result->methodName = $methodName;
+                    $this->result->methodParams = $methodParams;
                 }
-                $this->runMethod($this->methodName, $this->methodParams, $this->methodResult, $this->methodOutParams);
+                $this->runMethod($this->result->methodName, $this->result->methodParams, $this->result->methodResult, $this->result->methodOutParams);
             } catch (\Exception $ex) {
-                $this->methodException = [
-                    "code" => $ex->getCode(),
-                    "message" => $ex->getMessage(),
-                    "file" => $ex->getFile(),
-                    "line" => $ex->getLine()
-                ];
+                $this->result->methodException = $ex;
+            } finally {
+                $this->result->methodDuration = microtime(true) - $time_start;
+                if ( !is_null($this->result->methodException) && $raiseonerror ) {
+                    throw $this->result->methodException;
+                }
             }
-            $this->methodDuration = microtime(true) - $time_start;
+            
+        }
+
+        public final function getResult() : AjaxResult {
+            return $this->result;
         }
 
         private function renderStringParam(string $name, string $value) {
@@ -65,9 +73,9 @@ namespace Web {
                 }
             }
 
-            if (!empty($_GET)) {
+            /*if (!empty($_GET)) {
                 $args = array_merge($args, $_GET);
-            }
+            }*/
 
             if (!empty($_POST)) {
                 $args = array_merge($args, $_POST);
@@ -140,41 +148,6 @@ namespace Web {
             } else {
                 throw new WebException( "Method $method not found", 2001);
             }
-        }
-
-        public final function asArray(): array {
-            $this->lastOperationData = [
-                "methodName" => $this->methodName,
-                "methodParams" => $this->methodParams,
-                "methodResult" => $this->methodResult,
-                "methodOutParams" => $this->methodOutParams,
-                "methodDuration" => $this->methodDuration,
-                "methodException" => $this->methodException
-            ];
-
-            if (is_null($this->methodException)) {
-                return [
-                    "success" => true,
-                    "outputs" => $this->methodOutParams,
-                    "result" => $this->methodResult
-                ];
-            } else {
-                return [
-                    "success" => false,
-                    "text" => $this->methodException["message"]
-                ];
-            }
-        }
-
-        public final function getLastOperationData() {
-            return $this->lastOperationData;
-        }
-
-        public static final function print($result,$printMode = JSON_PRETTY_PRINT) {
-            if (!headers_sent()) {
-                header('Content-Type: application/json;charset=utf-8;');
-            }
-            echo json_encode($result, $printMode);
         }
 
     }

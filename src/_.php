@@ -33,8 +33,8 @@ class R extends \Web\Router
         include "ajax.php";        
         if ( auth::validate() ) {
             $a = new ajax();
-            $response->result($a->asArray());
-            $response->log($a->getLastOperationData());
+            $response->result([ "RESULT"=>$a->getResult()->methodResult,"OUTS"=>$a->getResult()->methodOutParams ]);
+            $response->log($a->getResult());
         } else {
             throw new \Web\WebException("Auth Faild");
         }        

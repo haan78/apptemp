@@ -47,17 +47,13 @@ namespace Web {
 
         public function outResult($result,?array $params ) : void {
             header("Content-Type: text/html; charset=utf-8");
-            echo json_encode([
-                "STATUS"=>"SUCCESS",
-                "RESULT"=>$result
-            ], JSON_PRETTY_PRINT);
+            echo json_encode($result, JSON_PRETTY_PRINT);
         }
 
         public function outException(\Exception $ex) : void {
             header("Content-Type: text/html; charset=utf-8");
             echo json_encode([
-                "STATUS"=>"ERROR",
-                "MESSAGE"=>$ex->getMessage(),
+                "ERROR"=>$ex->getMessage(),
                 "CODE"=>$ex->getCode(),
                 "FILE"=>$ex->getFile(),
                 "LINE"=>$ex->getLine()
