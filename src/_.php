@@ -1,52 +1,62 @@
 <?php
+
+use Web\RouterResponse;
+use Web\RouterResponseTypeDefaultJS;
+use Web\RouterResponseTypeDefaultJSON;
+use Web\RouterResponseTypeDefaultHTML;
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once "./lib/Web/Router.php";
+require_once "./lib/Web/RouterResponseType.php";
 require_once "./auth.php";
 
 class R extends \Web\Router
 {
-    protected function log($action, \Web\RouterActionInfo $rai) {
+    protected function log(\Web\RouterActionInfo $rai) {
 
     }
-    protected function doError($action, \Exception $ex)  {
-        echo $ex->getMessage();
-    }
 
-    public function main() {
+    public function main( RouterResponse $response ) : void {
+        
         if ( auth::validate() ) {
-            $this->jsFile("main.js",["user"=>"User","role"=>"ADMIN2"]);
-        } else {
-            $this->redirect("_.php?a=login");
+            $response->type(new RouterResponseTypeDefaultJS());
+            $response->result("main.js",["user"=>"User","role"=>"ADMIN2"]);
+        } else {        
+            $response->url("_.php?a=login");    
         }       
     }
 
-    public function ajax() {
+    public function ajax(RouterResponse $response) : void {
+        $response->type(new RouterResponseTypeDefaultJSON());
         include "ajax.php";        
         if ( auth::validate() ) {
             $a = new ajax();
-            ajax::print($a->asArray());
-            return $a->getLastOperationData();
+            $response->result($a->asArray());
+            $response->log($a->getLastOperationData());
         } else {
-            ajax::print(["success"=>false,"text"=>"Auhtantication has faild"]);
-            return null;
+            throw new \Web\WebException("Auth Faild");
         }        
     }
 
-    public function login() {
-        $this->jsFile("login.js");
+    public function login(RouterResponse $response) : void {
+        $response->type(new RouterResponseTypeDefaultJS());
+        $response->result("login.js");
     }
 
-    public function enter() {
+    public function enter(RouterResponse $response) : void {
         if (auth::login()) {
-            $this->redirect("/index.html");
+            $response->url("/index.html");
         } else {
-            $this->redirect("/index.html?m=w");
-        }
-        
+            $response->url("/index.html?m=w");
+        }        
     }
 
-    public function logout() {
-        $this->redirect('/index.html?m=e');
+    public function logout(RouterResponse $response) : void {
+        $response->type(new RouterResponseTypeDefaultHTML());
+        auth::logout();
+        $response->url('/index.html?m=e');
     }
 }
 

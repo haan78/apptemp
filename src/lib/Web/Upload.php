@@ -1,20 +1,8 @@
 <?php
 
 namespace Web {
-    
-    class WebUploadException extends \Exception {
-        
-        private $info;
 
-        public function __construct($info,$message, $code = 0, \Exception $previous = null) {
-            $this->info = $info;
-            parent::__construct($message, $code, $previous);
-        }
-
-        public function __toString() {
-            return __CLASS__ . ": [{$this->code}]: {$this->message} / $this->info";
-        }
-    }
+    require_once __DIR__ . "/WebException.php";
 
     class Upload {
 
@@ -51,19 +39,19 @@ namespace Web {
                                 }
                                 $ext = $source_info['extension'];
                             } else {
-                                throw new WebUploadException($target_info['dirname'],"Folder is not writable",3005);
+                                throw new WebException("Folder is not writable / ".$target_info['dirname'],3005);
                             }
                         } else {
-                            throw new WebUploadException($target_info['dirname'],"Folder is not exist",3004);
+                            throw new WebException("Folder is not exist / ".$target_info['dirname'],3004);
                         }
                     } else {
-                        throw new WebUploadException($source_info,"File is too big",3003);
+                        throw new WebException("File is too big / ".$source_info,3003);
                     }
                 } else {
-                    throw new WebUploadException($source_info,"File extension is not allowed",3002);
+                    throw new WebException("File extension is not allowed / ".$source_info,3002);
                 }
             } else {
-                throw new WebUploadException($name,"Upload name is not in files",3001);
+                throw new WebException("Upload name is not in files / ".$name,3001);
             }
         }
 

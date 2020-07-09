@@ -89,7 +89,7 @@ namespace Web {
                     $name = trim((string) $args[0]);
                     array_shift($args);
                 } else {
-                    throw new WebException(__METHOD__, "Method is not declared", 1001);
+                    throw new WebException( "Method is not declared", 1001);
                 }
             }
 
@@ -135,10 +135,10 @@ namespace Web {
                         $outs[$refParams[$ind]->getName()] = $pl[$ind];
                     }
                 } else {
-                    throw new WebException(__METHOD__, "Method $method is not accessible", 2002);
+                    throw new WebException( "Method $method is not accessible", 2002);
                 }
             } else {
-                throw new WebException(__METHOD__, "Method $method not found", 2001);
+                throw new WebException( "Method $method not found", 2001);
             }
         }
 
