@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="success">This is Main</el-button>
+        <el-button :loading="isLoading" type="success" @click="test()">This is Main</el-button>
         <br/><a href="_.php?a=logout">Logut</a>
     </div>
 </template>
@@ -18,7 +18,12 @@ export default {
         console.log(this.getServerData("DATA"));
     },
     methods:{
-
+        test() {
+            let self = this;
+            self.ajax("_.php/topla?a=ajax",[3,6],(response)=>{
+                self.$message.success(response.RESULT.toString());
+            })
+        }
     }
 }
 </script>

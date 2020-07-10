@@ -46,12 +46,12 @@ namespace Web {
     class RouterResponseTypeDefaultJSON implements RouterResponseType {
 
         public function outResult($result,?array $params ) : void {
-            header("Content-Type: text/html; charset=utf-8");
+            header("Content-Type: application/json; charset=utf-8");
             echo json_encode($result, JSON_PRETTY_PRINT);
         }
 
         public function outException(\Exception $ex) : void {
-            header("Content-Type: text/html; charset=utf-8");
+            header("Content-Type: application/json; charset=utf-8");
             echo json_encode([
                 "ERROR"=>$ex->getMessage(),
                 "CODE"=>$ex->getCode(),
@@ -67,7 +67,7 @@ namespace Web {
 
 
         public function outResult($result,?array $params ) : void {
-            header("Content-Type: application/json; charset=utf-8;");
+            header("Content-Type: application/javascript; charset=utf-8;");
             $js = file_get_contents($result);
             $json = json_encode($params);
             $js = str_replace($this->replaceCode,base64_encode($json),$js); 
@@ -75,7 +75,7 @@ namespace Web {
         }
 
         public function outException(\Exception $ex) : void {
-            header("Content-Type: application/json; charset=utf-8;");
+            header("Content-Type: application/javascript; charset=utf-8;");
             echo "console.log(".json_encode([
                 "STATUS"=>"ERROR",
                 "MESSAGE"=>$ex->getMessage(),

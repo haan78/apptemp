@@ -8,7 +8,7 @@ export default {
     },
 
     computed:{
-        loading() {
+        isLoading() {
             return (this.ajaxActivationCount > 0);
         }
     },
@@ -61,17 +61,14 @@ export default {
 
         defaultError(type,message) {
             //console.error(type+":"+message);
-            this.$notify.error({
-                title: 'Hata / '+type,
-                message: message
-              });
+            this.$message.error("HATA("+type+"):"+message);
         },
 
         defaultAjaxResponseEvaluation(data) {
             if ( !data.ERROR ) {
                 return {
                     "success":true,
-                    "data":data
+                    "data": data
                 }
             } else {
                 return {
@@ -95,7 +92,7 @@ export default {
                     var are = self.defaultAjaxResponseEvaluation(response.data);
                     if (are.success) {
                         if ( typeof onSuccess === "function" ) {
-                            onSuccess( response.data );
+                            onSuccess( are.data );
                         }
                     } else {
                         err( "Application",response.data );
