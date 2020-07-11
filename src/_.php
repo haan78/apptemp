@@ -1,15 +1,15 @@
 <?php
 
 use Web\RouterResponse;
-use Web\RouterResponseTypeDefaultJS;
-use Web\RouterResponseTypeDefaultJSON;
-use Web\RouterResponseTypeDefaultHTML;
+use Web\ResponseModelDefaultJS;
+use Web\ResponseModelDefaultJSON;
+use Web\ResponseModelDefaultHTML;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once "./lib/Web/Router.php";
-require_once "./lib/Web/RouterResponseType.php";
+require_once "./lib/Web/ResponseModel.php";
 require_once "./auth.php";
 
 class R extends \Web\Router
@@ -21,15 +21,15 @@ class R extends \Web\Router
     public function main( RouterResponse $response ) : void {
         
         if ( auth::validate() ) {
-            $response->type(new RouterResponseTypeDefaultJS());
+            $response->model(new ResponseModelDefaultJS());
             $response->result("main.js",["user"=>"User","role"=>"ADMIN2"]);
         } else {        
-            $response->url("_.php?a=login");    
+            $response->redirect("_.php?a=login");    
         }       
     }
 
     public function ajax(RouterResponse $response) : void {
-        $response->type(new RouterResponseTypeDefaultJSON());
+        $response->model(new ResponseModelDefaultJSON());
         include "ajax.php";        
         if ( auth::validate() ) {
             $a = new ajax();
@@ -41,23 +41,23 @@ class R extends \Web\Router
     }
 
     public function login(RouterResponse $response) : void {
-        $response->type(new RouterResponseTypeDefaultJS());
+        $response->model(new ResponseModelDefaultJS());
         $response->result("login.js");
     }
 
     public function enter(RouterResponse $response) : void {
         if (auth::login()) {
-            $response->url("/index.html");
+            $response->redirect("/index.html");
         } else {
-            $response->url("/index.html?m=w");
+            $response->redirect("/index.html?m=w");
         }        
     }
 
     public function logout(RouterResponse $response) : void {
-        $response->type(new RouterResponseTypeDefaultHTML());
         auth::logout();
-        $response->url('/index.html?m=e');
+        $response->redirect('/index.html?m=e');
     }
 }
+$m=(isset($_GET["a"]) ? trim($_GET["a"]) :( !empty($_GET) ? array_keys($_GET)[0] : "main" ));
 
-new R((isset($_GET["a"]) ? trim($_GET["a"]) : "main"));
+new R($m);

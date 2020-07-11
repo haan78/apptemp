@@ -4,7 +4,7 @@ namespace Web {
     
     require_once __DIR__ . "/WebException.php";
     require_once __DIR__ . "/Authorizer.php";
-    require_once __DIR__ . "/RouterResponseType.php";
+    require_once __DIR__ . "/ResponseModel.php";
 
     class RouterActionInfo {
         public $name;
@@ -17,7 +17,7 @@ namespace Web {
     }
 
     class RouterResponse {
-        private \Web\RouterResponseType $type;
+        private ?\Web\ResponseModel $model = null;
         private $result;
         private ?array $params = null;
         private $logData = null;
@@ -35,14 +35,14 @@ namespace Web {
             return $this->params;
         }
 
-        public function type(RouterResponseType $type):void {
-            $this->type = $type;  
+        public function model(ResponseModel $model):void {
+            $this->model = $model;  
         }
-        public function __getType() : RouterResponseType {
-            return $this->type;
+        public function __getModel() : ResponseModel {
+            return $this->model;
         }
 
-        public function url(string $url) : void {
+        public function redirect(string $url) : void {
             $this->redirection_url = $url;
         } 
 
@@ -78,7 +78,11 @@ namespace Web {
                         $rfm->invokeArgs($this, [$response]);
                         $rai->data = $response->__getLogData();
                         if ( is_null($response->__getUrl()) ) {
-                            $response->__getType()->outResult($response->__getResult(),$response->__getParams());
+                            if ( !is_null($response->__getModel()) ) {
+                                $response->__getModel()->outResult($response->__getResult(),$response->__getParams());
+                            } else {
+                                throw new WebException("Every router method must set response model or redirect");
+                            }                            
                         } else {
                             if ( !headers_sent($hf,$hl) ) {
                                 $rai->redirection = $response->__getUrl();
@@ -94,7 +98,7 @@ namespace Web {
                 }
             } catch (\Exception $ex) {
                 $rai->error = $ex;
-                $response->__getType()->outException($ex);
+                $response->__getModel()->outException($ex);
             }
 
             $rai->duration = round(microtime(true) - $time_start, 5);

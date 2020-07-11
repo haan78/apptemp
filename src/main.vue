@@ -20,7 +20,7 @@ export default {
     methods:{
         test() {
             let self = this;
-            self.ajax("_.php/topla?a=ajax",[3,6],(response)=>{
+            self.ajax("_.php/topla?ajax",[3,6],(response)=>{
                 self.$message.success(response.RESULT.toString());
             })
         }

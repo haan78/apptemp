@@ -1,12 +1,12 @@
 <?php
 
 namespace Web {
-    interface RouterResponseType {
+    interface ResponseModel {
         public function outResult($result,?array $params ) : void;
         public function outException(\Exception $ex) : void;
     }
 
-    class RouterResponseTypeDefaultHTML implements RouterResponseType {
+    class ResponseModelDefaultHTML implements ResponseModel {
 
         private function showObject($obj) {
             echo "<ul>";
@@ -43,7 +43,7 @@ namespace Web {
     }
     
 
-    class RouterResponseTypeDefaultJSON implements RouterResponseType {
+    class ResponseModelDefaultJSON implements ResponseModel {
 
         public function outResult($result,?array $params ) : void {
             header("Content-Type: application/json; charset=utf-8");
@@ -61,7 +61,7 @@ namespace Web {
         }
     }
 
-    class RouterResponseTypeDefaultJS implements RouterResponseType {
+    class ResponseModelDefaultJS implements ResponseModel {
 
         public $replaceCode = "VGhlcmUgaXMgbm8gZW1iZWRkZWQgZGF0YSBmcm9tIHRoZSBiYWNrZW5k";
 
