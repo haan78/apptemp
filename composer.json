@@ -1,7 +1,7 @@
 {
     "name":"baris/aptemp",
     "config": {
-        "vendor-dir": "./src/vendor"
+        "vendor-dir": "./dist/vendor"
     },
 
     "require": {

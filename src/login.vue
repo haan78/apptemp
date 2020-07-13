@@ -4,13 +4,14 @@
             <input type="text" name="user" value="USER" />
             <button type="submit">ENTER</button>
         </form>
+        Ali
         <div v-show="getM()=='n'">Nothing Just Welcome</div>
         <div v-show="getM()=='w'">Wrong Auth</div>
         <div v-show="getM()=='e'">Exit to System</div>
     </div>
 </template>
 <style>
-    @import "./theme/index.css";
+    @import "./assets/theme/index.css";
 </style>
 <script>
 export default {

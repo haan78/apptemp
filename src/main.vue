@@ -6,7 +6,7 @@
 </template>
 
 <style>
-    @import "./theme/index.css";
+    @import "./assets/theme/index.css";
 </style>
 
 <script>

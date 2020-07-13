@@ -75,10 +75,9 @@ module.exports = {
     plugins: [
         new VueLoaderPlugin(),
         new CopyPlugin({patterns:[
-            { from: './src/lib', to: 'lib' },
-            { from: './src/vendor', to: 'vendor' },            
-            { from: './src/*.php', to: "[name].php" },
-            { from: './src/*.html', to: "[name].html" },
+            { from: './src/lib', to: 'lib' },          
+            { from: './src/*.html', to: "[name].[ext]" },
+            { from: './src/*.php', to: "[name].[ext]" },
 			      { from: './src/assets', to: 'assets' },
         ]})
     ]
