@@ -3,7 +3,6 @@
 namespace Web {
     
     require_once __DIR__ . "/WebException.php";
-    require_once __DIR__ . "/Authorizer.php";
     require_once __DIR__ . "/ResponseModel.php";
 
     class RouterActionInfo {

@@ -4,18 +4,6 @@ volumes:
     mysql:
     upload: {}
     log:
-    scripts:
-        driver: local
-        driver_opts: 
-            type: none
-            device: C:\code\apptemp\server\scripts
-            o: bind
-    dist:
-        driver: local
-        driver_opts: 
-            type: none
-            device: C:\code\apptemp\dist
-            o: bind
 
 networks: 
     net1:
@@ -48,10 +36,11 @@ services:
         networks: 
             - net1
         volumes:
-            - "dist:/var/www/html/"
+            - "./dist:/var/www/html/"
+            - "./server/scripts:/scripts"
             - "upload:/var/www/upload/"
             - "log:/var/log/app"
-            - "scripts:/scripts"
+            
         expose: 
             - "80"
   
