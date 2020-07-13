@@ -1,4 +1,5 @@
 {
+    "description": "Apptemp Copmoser items",
     "name":"baris/aptemp",
     "config": {
         "vendor-dir": "./dist/vendor"
